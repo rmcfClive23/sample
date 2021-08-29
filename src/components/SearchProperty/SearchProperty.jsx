@@ -34,7 +34,7 @@ const BtnDropDown = ({
 
       <Popper open={open} anchorEl={anchorEl} placement="bottom" transition>
         <Paper className="margin-10">
-          <List component="nav" aria-label="secondary mailbox folders">
+          <List aria-label="secondary mailbox folders">
             {["Address", "City", "State"]
               .filter((val) => val.toUpperCase() !== value.toUpperCase())
               .map((elm) => (
@@ -69,10 +69,12 @@ const InputField = ({
 
       <ClickAwayListener onClickAway={handleClickAway}>
         <Popper open={open} anchorEl={anchorEl} placement="bottom" transition>
-          <Paper className="margin-10">
-            <List component="nav" aria-label="secondary mailbox folders">
+          <Paper>
+            <List aria-label="secondary mailbox folders">
               {options
-                .filter((val) => val.includes(value))
+                .filter((val) =>
+                  val.toLowerCase().includes(value.toLowerCase())
+                )
                 .map((elm) => (
                   <ListItem button onClick={() => handleSelect(elm)}>
                     <ListItemText primary={elm} />
@@ -121,6 +123,7 @@ const SearchProperty = () => {
 
   const handleShowPopper = (event, param) => {
     if (param.toUpperCase() === "INPUT") {
+      console.log(event.currentTarget);
       setInputAnchorEl(
         event.target.value.length === 0 ? null : event.currentTarget
       );
@@ -141,7 +144,8 @@ const SearchProperty = () => {
   };
 
   const handleSelect = (value) => {
-    console.log("Seleted", value);
+    searchValue(value);
+    handleClickAway();
   };
 
   return (
