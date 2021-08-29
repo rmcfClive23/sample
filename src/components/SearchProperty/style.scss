@@ -1,0 +1,98 @@
+.search-container {
+  position: relative;
+  padding: 60px 3%;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  min-height: 500px;
+  .title {
+    margin-bottom: 10px;
+    color: #7020ff;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: Circularstd, sans-serif;
+  }
+  .main-title {
+    margin-bottom: 10px;
+    color: #201b3d;
+    font-size: 56px;
+    line-height: 66px;
+    letter-spacing: -0.05em;
+    font-weight: 700;
+    font-family: Circularstd, sans-serif;
+  }
+  .input-container {
+    margin: 0 auto;
+    max-width: 871px;
+    width: 100%;
+    .position-relative {
+      position: relative !important;
+      .input-group {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        width: 100%;
+        background: #efefef;
+        border-radius: 50px;
+
+        .btn-dropdown {
+          position: relative;
+          vertical-align: middle;
+          display: flex;
+          margin-right: -1px;
+          padding: 5px;
+          .btn-main {
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            transition: all 0.15s ease-in-out;
+            background-color: #fff;
+            line-height: 1.75rem;
+            font-weight: 700;
+            border-radius: 50px !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .btn-main:focus {
+            outline: 0;
+            box-shadow: 0 0 0 2px #e6e6ff;
+          }
+          .btn-main:hover {
+            color: #000;
+            background-color: #ebedf5;
+            border-color: #d8dbeb;
+          }
+        }
+        .form-control {
+          height: 40px;
+          width: inherit;
+          border-radius: 28px !important;
+          padding: 0.75rem;
+          font-size: 1rem;
+          box-shadow: none !important;
+          border-color: #fff;
+          color: #000;
+          background-color: #fff;
+          background-clip: padding-box;
+          border: 1px solid #d8dbeb;
+          line-height: 1.75rem;
+          transition: border-color 0.15s ease-in-out,
+            box-shadow 0.15s ease-in-out;
+        }
+        input:focus {
+          outline: none;
+        }
+      }
+    }
+    .margin-10 {
+      margin-top: 10;
+      width: 100%;
+    }
+  }
+}
