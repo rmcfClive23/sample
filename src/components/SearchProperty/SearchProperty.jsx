@@ -14,6 +14,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { SearchOutlined } from "@material-ui/icons";
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import RiskScore from "../RiskScore/RiskScore";
 import "./style.scss";
 
 const BtnDropDown = ({
@@ -73,11 +74,11 @@ const InputField = ({
             <List aria-label="secondary mailbox folders">
               {options
                 .filter((val) =>
-                  val.toLowerCase().includes(value.toLowerCase())
+                  val.label.toLowerCase().includes(value.toLowerCase())
                 )
                 .map((elm) => (
                   <ListItem button onClick={() => handleSelect(elm)}>
-                    <ListItemText primary={elm} />
+                    <ListItemText primary={elm.label} />
                   </ListItem>
                 ))}
             </List>
@@ -94,6 +95,7 @@ const SearchProperty = () => {
   const [anchorBtnEl, setBtnAnchorEl] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [searchParam, setSearchParam] = useState("address");
+  const [property, setProperty] = useState({});
   const [list, setList] = useState([]);
 
   useEffect(() => {
@@ -111,9 +113,13 @@ const SearchProperty = () => {
         .then((res) => {
           if (res) {
             setList([
-              ...[res].map(
-                ({ address, city, state }) => `${address}, ${city}, ${state}`
-              ),
+              ...[res].map(({ address, city, state, ...rest }) => ({
+                label: `${address}, ${city}, ${state}`,
+                ...rest,
+                address,
+                city,
+                state,
+              })),
             ]);
           }
         })
@@ -123,7 +129,6 @@ const SearchProperty = () => {
 
   const handleShowPopper = (event, param) => {
     if (param.toUpperCase() === "INPUT") {
-      console.log(event.currentTarget);
       setInputAnchorEl(
         event.target.value.length === 0 ? null : event.currentTarget
       );
@@ -144,51 +149,57 @@ const SearchProperty = () => {
   };
 
   const handleSelect = (value) => {
-    searchValue(value);
+    setSearchValue(value.label);
+    setProperty(value);
     handleClickAway();
   };
 
   return (
-    <div className="search-container">
-      <Box width="100%">
-        <Typography variant="h6" className="title">
-          Search Property, Evaluate Risk
-        </Typography>
-        <Typography variant="h1" className="main-title">
-          Quick way to Find the Risk of your Property
-        </Typography>
-        <Box display="flex" width="100%" justifyContent="center">
-          <div className="input-container">
-            <Container>
-              <form className="position-relative">
-                <div className="input-group">
-                  <BtnDropDown
-                    value={searchParam}
-                    anchorEl={anchorBtnEl}
-                    open={Boolean(anchorBtnEl)}
-                    handleShowPopper={handleShowPopper}
-                    handleClickFilter={handleClickFilter}
-                  />
-                  <InputField
-                    inputRef={inputRef}
-                    anchorEl={anchorInputEl}
-                    open={Boolean(anchorInputEl)}
-                    handleShowPopper={handleShowPopper}
-                    handleClickAway={handleClickAway}
-                    handleSelect={handleSelect}
-                    options={list}
-                    value={searchValue}
-                  />
-                  <IconButton>
-                    <SearchOutlined />
-                  </IconButton>
-                </div>
-              </form>
-            </Container>
-          </div>
+    <>
+      <div className="search-container">
+        <Box width="100%">
+          <Typography variant="h6" className="title">
+            Search Property, Evaluate Risk
+          </Typography>
+          <Typography variant="h1" className="main-title">
+            Quick way to Find the Risk of your Property
+          </Typography>
+          <Box display="flex" width="100%" justifyContent="center">
+            <div className="input-container">
+              <Container>
+                <form className="position-relative">
+                  <div className="input-group">
+                    <BtnDropDown
+                      value={searchParam}
+                      anchorEl={anchorBtnEl}
+                      open={Boolean(anchorBtnEl)}
+                      handleShowPopper={handleShowPopper}
+                      handleClickFilter={handleClickFilter}
+                    />
+                    <InputField
+                      inputRef={inputRef}
+                      anchorEl={anchorInputEl}
+                      open={Boolean(anchorInputEl)}
+                      handleShowPopper={handleShowPopper}
+                      handleClickAway={handleClickAway}
+                      handleSelect={handleSelect}
+                      options={list}
+                      value={searchValue}
+                    />
+                    <IconButton>
+                      <SearchOutlined />
+                    </IconButton>
+                  </div>
+                </form>
+              </Container>
+            </div>
+          </Box>
         </Box>
-      </Box>
-    </div>
+      </div>
+      <Container className="risk-score-container">
+        <RiskScore property={property} />
+      </Container>
+    </>
   );
 };
 
